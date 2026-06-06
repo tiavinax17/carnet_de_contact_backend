@@ -23,7 +23,9 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 jours
+    maxAge: 7 * 24 * 60 * 60 * 1000, 
+    secure: true,
+    sameSite: 'none'
   }
 }));
 app.use(morgan('dev'));
