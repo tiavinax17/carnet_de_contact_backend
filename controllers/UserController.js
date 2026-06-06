@@ -3,7 +3,8 @@ const db = require('../DB/db.js');
 
 const fetchAll =  async (req, res)=>{
     try {
-        const responses = await db.query('SELECT * FROM contacts ORDER BY nom ASC');
+        const userId = req.params.id;
+        const responses = await db.query('SELECT * FROM contacts WHERE user_id = $1 ORDER BY nom ASC ',[userId]);
         if(!responses.rows){
             return res.status(200).json({message:"No data found"});
         }
@@ -17,8 +18,9 @@ const fetchAll =  async (req, res)=>{
 const createContact =  async (req, res)=>{
     try {
         const {nom, tel, addresse, email} = req.body;
+        const userId = req.params.id;
 
-        const responses = await db.query('INSERT INTO contacts (nom,tel,addresse,email) VALUES($1,$2,$3,$4) RETURNING *',[nom,tel,addresse,email]);
+        const responses = await db.query('INSERT INTO contacts (nom,tel,addresse,email,user_id) VALUES($1,$2,$3,$4,$5) RETURNING *',[nom,tel,addresse,email,userId]);
         if(!responses.rows){
             return res.status(200).json({message:"No data added"});
         }
