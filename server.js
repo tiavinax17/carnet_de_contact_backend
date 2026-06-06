@@ -7,6 +7,7 @@ const session = require('express-session');
 const passport = require('./passport.config');
 
 const app = express();
+app.enable('trust proxy');
 const PORT = process.env.PORT;
 const connectDB = require('./test');
 const Routes = require('./routes/index');
